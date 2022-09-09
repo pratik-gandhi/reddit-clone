@@ -1,0 +1,118 @@
+@JWT_TOKEN = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoicHJhdGlrIiwiZXhwIjoxNjYyMzk0MjA4LCJpYXQiOjE2NjIzOTQxMTgsInNjb3BlIjoiUk9MRV9VU0VSIn0.huzYk_cnaeFMM5p8b04TT22SmM1Zo9LvaQns0l6vnlpsdjvHmBeJ_26lwqnf3WSVDylEc9mV_nsCYBiIwf7J1lkvbijzHme19OrFvSCOgyXzGQgJ6lgDoruoIDyB81e9X4USWRHBWIb41v0AlzG0NK_ob1s2cklMFxsWkYlZcQJ4tNm7zj4wXv_BvJJ5q2CSX2UKoK3P02LslHbNnE0KBRyfPSTaX1xWzn81L5NnPGqi90FkKORqvHKrnLLESr9l_aF_o1sKqdg3Fhvs2dR0bl_mb_OXhSW9y7sB28ENccdtOMnCO7kkw_7e99XVUDviggKwnul22xr7c445pDQJFw
+@REFRESH_TOKEN = 639f4e36-a0e1-44cc-923b-7158bda1e6a4
+@HOST_NAME = localhost
+@PORT = 8080
+
+### Login
+POST http://{{HOST_NAME}}:{{PORT}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "username": "pratik",
+    "password": "Test@123"
+}
+
+###
+
+GET http://{{HOST_NAME}}:{{PORT}}/api/v1/subreddit
+Authorization: BEARER {{JWT_TOKEN}}
+
+
+###
+POST http://{{HOST_NAME}}:{{PORT}}/api/v1/subreddit
+Authorization: BEARER {{JWT_TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "Spring Boot",
+    "description": "Subreddit for Spring boot discussions"
+}
+
+
+###
+GET http://{{HOST_NAME}}:{{PORT}}/api/v1/subreddit/2
+Authorization: BEARER {{JWT_TOKEN}}
+
+
+###
+PATCH http://{{HOST_NAME}}:{{PORT}}/api/v1/subreddit/1
+Authorization: BEARER {{JWT_TOKEN}}
+Content-Type: application/json
+
+{
+    "description": "Subreddit for Spring boot related discussions"
+}
+
+###
+PUT http://{{HOST_NAME}}:{{PORT}}/api/v1/subreddit/4
+Authorization: BEARER {{JWT_TOKEN}}
+Content-Type: application/json
+
+{
+    "name": "Spring Framework",
+    "description": "Subreddit for Spring Framework related discussions"
+}
+
+
+###
+DELETE http://{{HOST_NAME}}:{{PORT}}/api/v1/subreddit/2
+Authorization: BEARER {{JWT_TOKEN}}
+
+
+### Create a Post
+POST http://{{HOST_NAME}}:{{PORT}}/api/v1/posts
+Content-Type: application/json
+Authorization: BEARER {{JWT_TOKEN}}
+
+{
+    "name": "first post",
+    "url": "http://firstpost.com",
+    "description": "amazing first post",
+    "subreddit_id": 1
+}
+
+
+### Create a post with wrong subreddit id
+POST http://{{HOST_NAME}}:{{PORT}}/api/v1/posts
+Content-Type: application/json
+Authorization: BEARER {{JWT_TOKEN}}
+
+{
+    "name": "Invalid post",
+    "url": "http://invalidpost.com",
+    "description": "not so amazing invalid post",
+    "subreddit_id": -1000
+}
+
+
+### Get all post
+GET http://{{HOST_NAME}}:{{PORT}}/api/v1/posts
+Authorization: BEARER {{JWT_TOKEN}}
+
+### Get an existing post
+GET http://{{HOST_NAME}}:{{PORT}}/api/v1/posts/1
+Authorization: BEARER {{JWT_TOKEN}}
+
+### Get an non-existent post
+GET http://{{HOST_NAME}}:{{PORT}}/api/v1/posts/0
+Authorization: BEARER {{JWT_TOKEN}}
+
+### Refresh Token
+POST http://{{HOST_NAME}}:{{PORT}}/api/v1/auth/refresh/token
+Authorization: BEARER {{JWT_TOKEN}}
+Content-Type: application/json
+
+{
+    "username": "pratik",
+    "refreshToken": "{{REFRESH_TOKEN}}"
+}
+
+### Logout
+POST http://{{HOST_NAME}}:{{PORT}}/api/v1/auth/logout
+Authorization: BEARER {{JWT_TOKEN}}
+Content-Type: application/json
+
+{
+    "username": "pratik",
+    "refreshToken": "{{REFRESH_TOKEN}}"
+}
